@@ -1,0 +1,5 @@
+coin,num_samples,num_moonshots,AE_LOF_Precision@10
+TUSDT,38,33,1.0
+PHAUSDT,86,81,1.0
+ARUSDT,52,47,1.0
+OMUSDT,139,134,0.9
