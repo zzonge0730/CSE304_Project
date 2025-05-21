@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from detect_moonshots_ohlcv import detect_moonshots
+from extend_features import extract_extended_features  # 확장 피처 정의 파일
 
 INPUT_DIR = "../data/binance_ohlcv"
 OUTPUT_DIR = "features/binance_top300"
@@ -10,12 +11,6 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 WINDOW_SIZE = 30
 NEGATIVE_SAMPLES = 5
-
-# 피처 벡터 추출: 수익률 + 변동성
-def extract_features(df_window):
-    close = df_window['close'].pct_change().fillna(0).values
-    volatility = pd.Series(close).rolling(window=7).std().fillna(0).values
-    return np.concatenate([close[-30:], volatility[-30:]])
 
 for filename in os.listdir(INPUT_DIR):
     if not filename.endswith(".csv"):
@@ -34,16 +29,22 @@ for filename in os.listdir(INPUT_DIR):
 
     moonshots = detect_moonshots(df, threshold=2.0, window=WINDOW_SIZE)
 
+    # 양성 샘플 (문샷)
     for start, end in moonshots:
-        window = df.iloc[start:end]
-        feat = extract_features(window)
+        close_window = df['close'].iloc[start:end]
+        volume_window = df['volume'].iloc[start:end]
+        if len(close_window) < WINDOW_SIZE:
+            continue
+        feat = extract_extended_features(close_window, volume_window)
         features.append(feat)
         labels.append(1)
 
+    # 음성 샘플 (랜덤 시점)
     for _ in range(NEGATIVE_SAMPLES):
-        i = np.random.randint(WINDOW_SIZE, len(df) - WINDOW_SIZE)
-        window = df.iloc[i - WINDOW_SIZE:i]
-        feat = extract_features(window)
+        i = np.random.randint(WINDOW_SIZE, len(df))
+        close_window = df['close'].iloc[i - WINDOW_SIZE:i]
+        volume_window = df['volume'].iloc[i - WINDOW_SIZE:i]
+        feat = extract_extended_features(close_window, volume_window)
         features.append(feat)
         labels.append(0)
 

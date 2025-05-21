@@ -1,4 +1,4 @@
-# run_iforest_binance.py
+# run_iforest_pca.py
 import os
 import numpy as np
 import pandas as pd
@@ -10,21 +10,24 @@ TOP_K = 10
 results = []
 
 for file in os.listdir(FEATURE_DIR):
-    if file.startswith("X_") and file.endswith(".npy"):
-        coin = file[2:-4]
-        x_path = os.path.join(FEATURE_DIR, f"X_{coin}.npy")
-        y_path = os.path.join(FEATURE_DIR, f"y_{coin}.npy")
-        if not os.path.exists(y_path):
-            continue
+    if not file.startswith("Z_pca_") or not file.endswith(".npy"):
+        continue
 
-        X = np.load(x_path)
-        y = np.load(y_path)
+    coin = file[6:-4]
+    z_path = os.path.join(FEATURE_DIR, f"Z_pca_{coin}.npy")
+    y_path = os.path.join(FEATURE_DIR, f"y_{coin}.npy")
+    if not os.path.exists(y_path):
+        continue
 
-        if len(y) < 10 or np.sum(y) < 2:
-            continue
+    Z = np.load(z_path)
+    y = np.load(y_path)
 
-        iforest = IsolationForest(random_state=42)
-        scores = -iforest.fit(X).score_samples(X)
+    if len(Z) < 5 or np.sum(y) < 1:
+        continue
+
+    try:
+        model = IsolationForest(n_estimators=100, contamination='auto', random_state=42)
+        scores = -model.fit(Z).decision_function(Z)
         top_indices = np.argsort(scores)[::-1][:TOP_K]
         precision = np.sum(y[top_indices]) / TOP_K
         # 1. Top-K 기준 이진 예측
@@ -42,13 +45,15 @@ for file in os.listdir(FEATURE_DIR):
             "coin": coin,
             "num_samples": len(y),
             "num_moonshots": int(np.sum(y)),
-            "IF_Precision@10": round(precision, 2),
+            "PCA_IForest_Precision@10": round(precision, 2),
             "Recall": round(recall, 2),
             "F1": round(f1, 2),
             "ROC_AUC": round(roc_auc, 3),
             "AP": round(ap, 3)
         })
-# 결과 저장
+    except Exception as e:
+        print(f"❌ {coin} failed: {e}")
+
 df = pd.DataFrame(results)
-df.to_csv("iforest_results.csv", index=False)
-print("📁 Saved: iforest_results.csv")
+df.to_csv("iforest_pca_results.csv", index=False)
+print("📁 Saved: iforest_pca_results.csv")

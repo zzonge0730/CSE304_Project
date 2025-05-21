@@ -1,5 +1,45 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*.so
 
-features/
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Virtual Environment
 venv/
-sripts/data
-sripts/features
+.env/
+
+# VSCode settings (optional)
+.vscode/
+
+# Mac OS / Windows specific
+.DS_Store
+Thumbs.db
+
+# Data Files
+*.csv
+*.npy
+
+# Feature + Result Folders (you can fine-tune these if needed)
+features/binance_top300/
+visualization_output/
+anomaly_detection_results/
+clustering_results/
+
+# Logs and outputs
+*.log
+*.out
+*.tmp
+*.bak
+
+# Model checkpoints
+*.h5
+*.ckpt
+*.pth
+*.pt
+
+# Results and figures (optional)
+*.png
+*.jpg
+*.pdf
