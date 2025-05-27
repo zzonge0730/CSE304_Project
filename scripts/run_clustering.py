@@ -128,7 +128,7 @@ for filename in os.listdir(FEATURE_DIR):
                     print(f"  {data_name} - DBSCAN (eps={DBSCAN_EPS}, min_samples={DBSCAN_MIN_SAMPLES}): Silhouette = {row_data['silhouette_score']:.3f}")
 
                 except Exception as e:
-                    print(f"❌ {data_name} - DBSCAN failed: {e}")
+                    print(f"{data_name} - DBSCAN failed: {e}")
                     row_data = {
                         "coin": coin_name,
                         "feature_type": data_type,
@@ -141,7 +141,7 @@ for filename in os.listdir(FEATURE_DIR):
                     all_results_list.append(row_data)
 
         except Exception as e:
-            print(f"❌ Failed to process {coin_name}: {e}")
+            print(f"Failed to process {coin_name}: {e}")
 
 # 최종 결과 저장
 df_results = pd.DataFrame(all_results_list)

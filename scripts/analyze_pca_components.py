@@ -8,9 +8,7 @@ from sklearn.decomposition import PCA
 FEATURE_DIR = "features/binance_top300"
 COIN_TO_ANALYZE = "KAVAUSDT" # PCA Component를 해석할 코인 선택 (클러스터링 시각화에 사용한 코인)
 
-# --- extend_features.py에서 반환되는 72개 피처의 정확한 순서와 이름을 직접 입력해야 합니다. ---
-# 이 부분은 extend_features.py를 보고 수동으로 작성해주세요.
-# 예시:
+
 FEATURE_NAMES = [
     'returns_last', 'log_returns_last',
     'ma5_last', 'ma10_last', 'ma20_last',
@@ -27,7 +25,7 @@ for i in range(1, 31):
 
 # 총 72차원인지 확인
 if len(FEATURE_NAMES) != 72:
-    print(f"❌ 경고: FEATURE_NAMES 리스트의 길이가 72가 아닙니다. 현재 {len(FEATURE_NAMES)} 차원.")
+    print(f"경고: FEATURE_NAMES 리스트의 길이가 72가 아닙니다. 현재 {len(FEATURE_NAMES)} 차원.")
     print("extend_features.py의 extract_extended_features 함수 반환 순서와 정확히 일치시켜주세요.")
     exit()
 
@@ -37,7 +35,7 @@ x_raw_path = os.path.join(FEATURE_DIR, f"X_{COIN_TO_ANALYZE}.npy")
 try:
     X_raw = np.load(x_raw_path)
 except FileNotFoundError:
-    print(f"❌ 오류: {COIN_TO_ANALYZE}에 대한 원본 피처 파일을 찾을 수 없습니다.")
+    print(f"오류: {COIN_TO_ANALYZE}에 대한 원본 피처 파일을 찾을 수 없습니다.")
     exit()
 
 if len(X_raw) < 10:

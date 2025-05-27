@@ -27,7 +27,7 @@ for filename in os.listdir(FEATURE_DIR):
         y_path = os.path.join(FEATURE_DIR, f"y_{coin}.npy")
 
         if not os.path.exists(y_path):
-            print(f"⚠️ {coin} skipped Sparse PCA AD: Missing y file.")
+            print(f"{coin} skipped Sparse PCA AD: Missing y file.")
             continue
 
         try:
@@ -38,7 +38,7 @@ for filename in os.listdir(FEATURE_DIR):
             Z_sparse_pca_finite = np.where(np.isfinite(Z_sparse_pca), Z_sparse_pca, 0)
             
             if len(Z_sparse_pca_finite) < MIN_SAMPLES_FOR_AD or np.sum(y_true) < 1:
-                print(f"⚠️ {coin} skipped Sparse PCA AD: Not enough samples ({len(Z_sparse_pca_finite)}) or no moonshots ({int(np.sum(y_true))}).")
+                print(f"{coin} skipped Sparse PCA AD: Not enough samples ({len(Z_sparse_pca_finite)}) or no moonshots ({int(np.sum(y_true))}).")
                 continue
 
             print(f"\n--- Processing {coin} for Sparse PCA Anomaly Detection ---")
@@ -52,7 +52,7 @@ for filename in os.listdir(FEATURE_DIR):
                 lof_sparse_model = LocalOutlierFactor(n_neighbors=n_neighbors_lof_sparse)
                 sparse_pca_lof_scores = -lof_sparse_model.fit(Z_sparse_pca_finite).negative_outlier_factor_ 
             else:
-                print(f"⚠️ {coin} skipped SparsePCA_LOF: n_neighbors is too small ({n_neighbors_lof_sparse}).")
+                print(f"{coin} skipped SparsePCA_LOF: n_neighbors is too small ({n_neighbors_lof_sparse}).")
 
             # ----------------------------------------------------
             # 2. Sparse PCA 잠재 공간 + Isolation Forest 이상치 탐지
@@ -113,7 +113,7 @@ for filename in os.listdir(FEATURE_DIR):
                 })
 
         except Exception as e:
-            print(f"❌ Failed to process {coin} for Sparse PCA Anomaly Detection: {e}")
+            print(f"Failed to process {coin} for Sparse PCA Anomaly Detection: {e}")
 
 # 결과 저장
 df_results = pd.DataFrame(all_sparse_pca_detection_results).drop_duplicates(subset=["coin", "algorithm"])

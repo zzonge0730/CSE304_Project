@@ -44,4 +44,4 @@ for epoch in range(30):
 with torch.no_grad():
     Z = model.encoder(X_tensor).numpy()
 np.save("features/Z_ae.npy", Z)
-print("✅ Autoencoder compression done:", Z.shape)
+print("Autoencoder compression done:", Z.shape)

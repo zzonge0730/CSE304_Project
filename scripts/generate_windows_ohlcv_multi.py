@@ -21,10 +21,10 @@ for filename in os.listdir(INPUT_DIR):
     df = pd.read_csv(path)
 
     if len(df) < WINDOW_SIZE * 3:
-        print(f"❌ {coin_name} too short, skipping")
+        print(f"{coin_name} too short, skipping")
         continue
 
-    print(f"🔄 Processing {coin_name}...")
+    print(f"Processing {coin_name}...")
     features, labels = [], []
 
     moonshots = detect_moonshots(df, threshold=2.0, window=WINDOW_SIZE)
@@ -57,4 +57,4 @@ for filename in os.listdir(INPUT_DIR):
 
     np.save(f"{OUTPUT_DIR}/X_{coin_name}.npy", X)
     np.save(f"{OUTPUT_DIR}/y_{coin_name}.npy", y)
-    print(f"✅ Saved {coin_name}: {X.shape}, {y.sum()} moonshots")
+    print(f"Saved {coin_name}: {X.shape}, {y.sum()} moonshots")

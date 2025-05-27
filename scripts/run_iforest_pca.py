@@ -39,7 +39,7 @@ for file in os.listdir(FEATURE_DIR):
         f1 = f1_score(y, y_pred)
         roc_auc = roc_auc_score(y, scores)
         ap = average_precision_score(y, scores)        
-        print(f"💡 {coin}: AE+IForest top-{TOP_K} precision = {precision:.2f}")
+        print(f"{coin}: AE+IForest top-{TOP_K} precision = {precision:.2f}")
 
         results.append({
             "coin": coin,
@@ -52,8 +52,8 @@ for file in os.listdir(FEATURE_DIR):
             "AP": round(ap, 3)
         })
     except Exception as e:
-        print(f"❌ {coin} failed: {e}")
+        print(f"{coin} failed: {e}")
 
 df = pd.DataFrame(results)
 df.to_csv("iforest_pca_results.csv", index=False)
-print("📁 Saved: iforest_pca_results.csv")
+print("Saved: iforest_pca_results.csv")

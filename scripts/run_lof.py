@@ -6,7 +6,7 @@ from sklearn.metrics import recall_score, f1_score, roc_auc_score, average_preci
 
 FEATURE_DIR = "features/binance_top300"
 TOP_K = 10
-results = []  # 🔹 CSV 저장용 리스트
+results = []  
 
 for file in os.listdir(FEATURE_DIR):
     if file.startswith("X_") and file.endswith(".npy"):
@@ -27,7 +27,7 @@ for file in os.listdir(FEATURE_DIR):
         top_indices = np.argsort(lof_scores)[::-1][:TOP_K]
         precision = np.sum(y[top_indices]) / TOP_K
 
-        print(f"🔎 {coin}: LOF top-{TOP_K} precision = {precision:.2f} ({int(np.sum(y[top_indices]))}/{TOP_K})")
+        print(f"{coin}: LOF top-{TOP_K} precision = {precision:.2f} ({int(np.sum(y[top_indices]))}/{TOP_K})")
 
         # 1. Top-K 기준 이진 예측
         y_pred = np.zeros_like(y)
@@ -38,7 +38,7 @@ for file in os.listdir(FEATURE_DIR):
         f1 = f1_score(y, y_pred)
         roc_auc = roc_auc_score(y, lof_scores)
         ap = average_precision_score(y, lof_scores)        
-        print(f"💡 {coin}: AE+IForest top-{TOP_K} precision = {precision:.2f}")
+        print(f"{coin}: AE+IForest top-{TOP_K} precision = {precision:.2f}")
 
         results.append({
             "coin": coin,
@@ -53,4 +53,4 @@ for file in os.listdir(FEATURE_DIR):
 # 🔹 CSV 저장
 df = pd.DataFrame(results)
 df.to_csv("lof_results.csv", index=False)
-print("📁 Saved: lof_results.csv")
+print("Saved: lof_results.csv")

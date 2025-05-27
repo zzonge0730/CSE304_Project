@@ -37,7 +37,7 @@ for file in os.listdir(FEATURE_DIR):
         # 이미 압축된 파일이 존재하면 건너뛰기 (시간 절약)
         z_ae_path = os.path.join(FEATURE_DIR, f"Z_ae_{coin}.npy")
         if os.path.exists(z_ae_path):
-            print(f"✅ Already compressed: Z_ae_{coin}.npy")
+            print(f"Already compressed: Z_ae_{coin}.npy")
             continue
 
         try:
@@ -56,6 +56,6 @@ for file in os.listdir(FEATURE_DIR):
 
             Z = encoder.predict(X, verbose=0)
             np.save(z_ae_path, Z)
-            print(f"✅ Saved: {z_ae_path}")
+            print(f"Saved: {z_ae_path}")
         except Exception as e:
-            print(f"❌ Failed to compress {coin} with AE: {e}")
+            print(f"Failed to compress {coin} with AE: {e}")

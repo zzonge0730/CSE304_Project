@@ -32,7 +32,7 @@ for file in os.listdir(FEATURE_DIR):
         out_path = os.path.join(FEATURE_DIR, f"{OUTPUT_PREFIX}_{coin}.npy")
         np.save(out_path, Z)
 
-        print(f"✅ PCA compressed {coin}: {X.shape} → {Z.shape}")
+        print(f"PCA compressed {coin}: {X.shape} → {Z.shape}")
 
     except Exception as e:
-        print(f"❌ {coin} failed: {e}")
+        print(f"{coin} failed: {e}")

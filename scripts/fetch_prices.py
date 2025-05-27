@@ -32,7 +32,7 @@ def fetch_ohlcv_binance(symbol, interval='1d', start_days_ago=1000):
     }
     res = requests.get(url, params=params)
     if res.status_code != 200:
-        print(f"❌ {symbol}: status {res.status_code}")
+        print(f"{symbol}: status {res.status_code}")
         return None
     raw = res.json()
     df = pd.DataFrame(raw, columns=[
@@ -51,12 +51,12 @@ if __name__ == "__main__":
     for symbol in SYMBOLS:
         save_path = os.path.join(SAVE_DIR, f"{symbol}.csv")
         if os.path.exists(save_path):
-            print(f"✅ Already exists: {symbol}.csv")
+            print(f"Already exists: {symbol}.csv")
             continue
 
         print(f"📥 Fetching: {symbol}")
         df = fetch_ohlcv_binance(symbol)
         if df is not None:
             df.to_csv(save_path, index=False)
-            print(f"✅ Saved: {symbol}.csv")
+            print(f"Saved: {symbol}.csv")
         time.sleep(1)

@@ -91,7 +91,6 @@ for file in os.listdir(FEATURE_DIR):
             if_model = IsolationForest(random_state=42, n_estimators=100)
             ae_if_scores = -if_model.fit(Z_ae_finite).decision_function(Z_ae_finite) 
 
-            # ... (이하 동일) ...
             methods_to_evaluate = {
                 "AE_Reconstruction": ae_reconstruction_scores,
                 "AE_LOF": ae_lof_scores,
@@ -146,7 +145,7 @@ for file in os.listdir(FEATURE_DIR):
                 })
 
         except Exception as e:
-            print(f"❌ Failed to process {coin} for AE Anomaly Detection: {e}")
+            print(f"Failed to process {coin} for AE Anomaly Detection: {e}")
 
 # 결과 저장
 df_results = pd.DataFrame(all_ae_detection_results).drop_duplicates(subset=["coin", "algorithm"])

@@ -52,4 +52,4 @@ for file in os.listdir(FEATURE_DIR):
 
 # 결과 저장
 pd.DataFrame(results).to_csv(RESULT_PATH, index=False)
-print(f"✅ Results saved to {RESULT_PATH}")
+print(f"Results saved to {RESULT_PATH}")

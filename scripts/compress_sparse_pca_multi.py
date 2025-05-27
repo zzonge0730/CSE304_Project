@@ -56,7 +56,7 @@ for file in os.listdir(FEATURE_DIR):
             Z_sparse_pca = sparse_pca.fit_transform(X_scaled) # 압축된 피처
 
             np.save(z_sparse_pca_path, Z_sparse_pca)
-            print(f"✅ Saved: {z_sparse_pca_path}")
+            print(f"Saved: {z_sparse_pca_path}")
 
         except Exception as e:
-            print(f"❌ Failed to compress {coin} with Sparse PCA: {e}")
+            print(f"Failed to compress {coin} with Sparse PCA: {e}")
